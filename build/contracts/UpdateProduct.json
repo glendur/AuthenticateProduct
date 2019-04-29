@@ -1,0 +1,103 @@
+{
+  "contractName": "UpdateProduct",
+  "abi": [],
+  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3fe6080604052600080fdfea165627a7a723058209b965778ac68e209c71abfe4ce16c41c15dd67833d391a2ca2fce6190925abf60029",
+  "deployedBytecode": "0x6080604052600080fdfea165627a7a723058209b965778ac68e209c71abfe4ce16c41c15dd67833d391a2ca2fce6190925abf60029",
+  "sourceMap": "26:1141:2:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;26:1141:2;;;;;;;",
+  "deployedSourceMap": "26:1141:2:-;;;;;",
+  "source": "pragma solidity ^0.5.0; \n\ncontract UpdateProduct {\n    /*\n    Is called upon when a user scans a QR-code in \"write-mode\".\n    When called upon, it looks at the _pID of the {\"product.data\"}. \n    The information is hashed, and checked against the checksum \n    (value of the _pID key in products mapping). \n\n    - If the _pID is found in the products mapping, the old entry is deleted. \n    (It might emits information to the front end, saying \"Authentic product - entering update mode\")\n        - The new information, passed to this SC by the front end, is then hashed,\n          and a new entry is pushed to the mapping. \n        - Firebase is updated with the same information, further passed by this smart contract.\n            this firebase call is the same as in \"InitializeProduct.sol\", this function should \n            be abstracted into a helper-class.  \n\n    If the _pID is not found in the mapping, it means that the product is not registered in the database.\n        - This in turn means that it is not possible to update the product. \n        - The user is notified that the product is not currently registered, and has to be before updating.\n\n\n\n    */\n}",
+  "sourcePath": "/Users/Glende/Documents/Progg/Master/AuthiCate2/contracts/UpdateProduct.sol",
+  "ast": {
+    "absolutePath": "/Users/Glende/Documents/Progg/Master/AuthiCate2/contracts/UpdateProduct.sol",
+    "exportedSymbols": {
+      "UpdateProduct": [
+        133
+      ]
+    },
+    "id": 134,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 132,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:2"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 133,
+        "linearizedBaseContracts": [
+          133
+        ],
+        "name": "UpdateProduct",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 134,
+        "src": "26:1141:2"
+      }
+    ],
+    "src": "0:1167:2"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/Glende/Documents/Progg/Master/AuthiCate2/contracts/UpdateProduct.sol",
+    "exportedSymbols": {
+      "UpdateProduct": [
+        133
+      ]
+    },
+    "id": 134,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 132,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:2"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 133,
+        "linearizedBaseContracts": [
+          133
+        ],
+        "name": "UpdateProduct",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 134,
+        "src": "26:1141:2"
+      }
+    ],
+    "src": "0:1167:2"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.0+commit.1d4f565a.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.2",
+  "updatedAt": "2019-04-20T17:52:45.486Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}
