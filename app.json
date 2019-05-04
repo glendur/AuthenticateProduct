@@ -1,5 +1,8 @@
 {
   "expo": {
     "sdkVersion": "30.0.0"
+  },
+  "infoPlist":{ 
+    "NSLocationWhenInUseUsageDescription": "This app uses the location services to find the transporters' location"
   }
 }

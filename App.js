@@ -5,10 +5,10 @@ import './global';
 import firebaseConfig from './src/InitFirebase';
 import firebase from 'firebase'; 
 
-
 export default class App extends React.Component {
   constructor() {
     super();
+
   }
 
   componentWillMount() {
