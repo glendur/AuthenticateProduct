@@ -3,6 +3,7 @@ import '../../global';
 import { updateProductOnEthereum } from './updateProductOnEthereum';
 import { updateProductOnFirebase } from './updateProductOnFirebase';
 import { getGeoLocation } from '../helperFunctions/getGeoLocation';
+import { productContract } from '../variables/ethVariables';
 
 
 
@@ -19,7 +20,13 @@ export const updater = async (data, intermediaryInput) => {
   //firebase. Dette er fordi hvis en scanner flere ganger kjapt etter hverandre, 
   //vil firebase bli oppdatert, mens ethereum bare blir
   //oppdatert med den første scannen." 
-  updateProductOnEthereum(json, transitPoint, intermediary)
-  return updateProductOnFirebase(json, transitPoint, intermediary)
-  
+  const txObject = await updateProductOnEthereum(json, transitPoint, intermediary)
+  if(!txObject.status){
+    return;
+  }
+  const fbObject = await updateProductOnFirebase(json, transitPoint, intermediary)
+  if(fbObject.data === null){
+    return; 
+  }
+  return [fbObject, txObject];
 };

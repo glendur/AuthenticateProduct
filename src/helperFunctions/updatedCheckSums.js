@@ -1,7 +1,8 @@
 var Tx = require('ethereumjs-tx');
 import { productContract } from '../variables/ethVariables';
 
-export const createUpdatedChecksum = async (response) => {
+//tidligere kalt createUpdatedChecksum
+export const createNewChecksum = async (response) => {
     var t0 = Date.now();
     const checkSumArray = []; 
     for(var i = 0; i < response.data.intermediary.length;){
@@ -17,13 +18,13 @@ export const createUpdatedChecksum = async (response) => {
         var t1 = Date.now();
         i++;
         checkSumArray.unshift(newUpdatedCheckSum);
-        //return newUpdatedCheckSum;
     }
     console.log("Call to createUpdatedChecksum took " + (t1 - t0) + " milliseconds.")
     return checkSumArray;
 };
 
-export const fetchUpdatedCheckSum = async (jsonFromScan) => {
+//tidligere kalt fetchUpdatedChecksum
+export const fetchEthChecksum = async (jsonFromScan) => {
     return await productContract.methods.getProductHistory(`${jsonFromScan.id}`).call();  
 
 };

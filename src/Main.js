@@ -3,6 +3,7 @@ import { Text, View, Alert, StyleSheet, TouchableOpacity, TextInput, KeyboardAvo
 import { BarCodeScanner, Permissions } from 'expo';
 import { authenticator } from './authenticateProduct/authenticator';
 import { updater } from './updateProduct/updater';
+import { isJson } from './helperFunctions/isJson';
 
 
 export default class Main extends React.Component {
@@ -15,7 +16,9 @@ export default class Main extends React.Component {
     auth: true,
     update: null,
     authentic: null, 
-    intermediaryInput: null
+    intermediaryInput: null,
+    txHash: null,
+    ethStatus: null
   }
 
   nullifyState(res) { 
@@ -25,6 +28,8 @@ export default class Main extends React.Component {
       description: null, 
       batchID: null, 
       auth: true, 
+      ethStatus: null,
+      txHash: null,
       authentic: res, 
     });
   }
@@ -65,23 +70,24 @@ export default class Main extends React.Component {
           </View>
           <BarCodeScanner
             onBarCodeScanned={this.handleBarCodeScanned}
-            style={{ flex: 5 }}
+            style={{ flex: 4 }}
           />
-          <View style ={{ flex: 2, margin: 10 }}>
-            <Text style={this.state.style}>
-              Product Information  
-            </Text>
+          <View style ={{ flex: 3, margin: 10 }}>
             <View>
+              <TextInput         
+                style={styles.baseText}
+                placeholder="Transporter"
+                onChangeText={(intermediaryInput) => this.setState({intermediaryInput})}
+              >
+              Transporter: </TextInput>
+              <Text style={styles.titleText}>Product Information </Text>
               <Text style={styles.baseText}>Authenticity: {this.state.authentic} </Text>
               <Text style={styles.baseText}>ID: {this.state.id}</Text>
               <Text style={styles.baseText}>Description: {this.state.description}</Text>
               <Text style={styles.baseText}>Origin: {this.state.origin}</Text>
               <Text style={styles.baseText}>BatchID: {this.state.batchID} </Text>
-              <TextInput         
-                style={styles.baseText}
-                placeholder="Transporter"
-                onChangeText={(intermediaryInput) => this.setState({intermediaryInput})}
-              >Transporter: </TextInput>
+              <Text style={styles.baseText}>Successfull: {this.state.ethStatus}</Text>      
+              <Text style={styles.baseText}>Transaction Hash: {this.state.txHash}</Text>
             </View>
           </View>
           </View>
@@ -90,31 +96,43 @@ export default class Main extends React.Component {
   }
 
   handleBarCodeScanned = ({ data }) => {
-    if(this.state.update){
-      if(this.state.intermediaryInput !== null){
-        Alert.alert(
-          'Update Product',
-          `Are you sure you want to update the product with the ID: ${JSON.parse(data).id}?`,
-          [
-            { text: "Lukk" },
-            { text: "Ok", onPress: () => updater(data, this.state.intermediaryInput).then(res => this.setState({ id: res.data.id, batchID: res.data.batchID, description: res.data.description, origin: res.data.origin  })) 
+    if(isJson(data)){
+      if(this.state.update){
+        if(this.state.intermediaryInput !== null){
+          Alert.alert(
+            'Update Product',
+            `Are you sure you want to update the product with the ID: ${JSON.parse(data).id}?`,
+            [
+              { text: "Lukk" },
+              { text: "Ok", onPress: () => updater(data, this.state.intermediaryInput)
+                .then(res =>
+                    this.setState({ 
+                    id: res[0].data.id, 
+                    batchID: res[0].data.batchID, 
+                    description: res[0].data.description, 
+                    origin: res[0].data.origin,
+                    txHash: res[1].transactionHash, 
+                    ethStatus: `${res[1].status}`,
+                    authentic: null
 
-            }
-          ]
-        );
-        return; 
-      }return; 
-    }
-    Alert.alert(
-      'Authenticate Product',
-      `Authenticating product with ID: ${JSON.parse(data).id}?`,
-      [
-        { text: "Lukk" },
-        { text: "Ok", onPress: () => authenticator(data).then(res => this.nullifyState(res))
-        
-        }
-      ]
-    );
+                  }) 
+              )}
+            ]
+          );
+          return; 
+        }return; 
+      }
+      Alert.alert(
+        'Authenticate Product',
+        `Authenticating product with ID: ${JSON.parse(data).id}?`,
+        [
+          { text: "Lukk" },
+          { text: "Ok", onPress: () => authenticator(data).then(res => this.nullifyState(res))
+          
+          }
+        ]
+      );
+    }       
   }
 }
 

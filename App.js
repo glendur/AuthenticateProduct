@@ -4,6 +4,8 @@ import Main from './src/Main';
 import './global';
 import firebaseConfig from './src/InitFirebase';
 import firebase from 'firebase'; 
+import { createStackNavigator, createAppContainer } from "react-navigation";
+
 
 export default class App extends React.Component {
   constructor() {
